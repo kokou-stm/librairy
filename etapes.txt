@@ -1,0 +1,6 @@
+az account clear
+az config set core.enable_broker_on_windows=false
+az login
+
+# Obtenir le credentials
+az ad sp create-for-rbac --name "my-github-actions-sp" --role contributor --scopes /subscriptions/ca513d84-7b49-4a0c-ab09-5819a9dbdceb/resourceGroups/Project --sdk-auth
