@@ -1,0 +1,185 @@
+from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
+from django.conf import settings
+from django.contrib import messages
+
+from django.db.models import Q
+from django.core.mail import EmailMessage
+
+from django.views.decorators.csrf import csrf_exempt
+from django.core.validators import validate_email
+from django.contrib.auth.password_validation import validate_password
+from .models import *
+from django.contrib.auth.decorators import login_required
+# Create your views here.
+
+@login_required
+def index(request):
+    return render(request, "index.html")
+
+
+def forgotpassword(request):
+    return render(request, "index.html")
+
+
+def register(request):
+    mess = ""
+    if request.method == "POST":
+        
+        print("="*5, "NEW REGISTRATION", "="*5)
+        username = request.POST.get("username", None)
+        email = request.POST.get("email", None)
+        pass1 = request.POST.get("password1", None)
+        pass2 = request.POST.get("password2", None)
+        print(username, email, pass1, pass2)
+        try:
+            validate_email(email)
+        except:
+            mess = "Invalid Email"
+        if pass1 != pass2 :
+            mess += " Password not match"
+        if User.objects.filter(Q(email= email)| Q(username=username)).first():
+            mess += f" Exist user with email {email}"
+        print("Message: ", mess)
+        if mess=="":
+            try:
+                    validate_password(pass1)
+                    user = User(username= username, email = email)
+                    user.save()
+                    user.password = pass1
+                    user.set_password(user.password)
+                    user.save()
+                    subject= "Bienvenue à la bibliothèque de l'INSA Hauts-de-France ! "
+                    email_message = f"""
+                    Bonjour {username},
+
+                    Félicitations et bienvenue à l'INSA Hauts-de-France ! 
+                    Nous sommes ravis de vous compter parmi nos nouveaux étudiants et de vous accueillir à la bibliothèque.
+
+                    Grâce à votre inscription, vous avez désormais accès à une large gamme de ressources pour accompagner vos études :
+
+                        Des livres, des manuels, des revues et des articles scientifiques en libre accès.
+                        Un espace de travail calme et adapté pour vos révisions.
+                        Des services numériques, avec des bases de données en ligne, des e-books et bien plus encore.
+                        Des ateliers et des événements pour vous aider à développer vos compétences en recherche documentaire et en gestion de l'information.
+
+                    Votre carte d'étudiant vous permet également d'accéder aux services suivants :
+
+                        Emprunt de documents et prolongation de prêts.
+                        Accès à des espaces de travail collaboratif.
+                        Réservation de salles de travail en groupe.
+
+                    Pour plus d'informations sur nos horaires, nos services ou pour toute question, n'hésitez pas à consulter notre site web ou à nous contacter directement par e-mail ou téléphone.
+
+                    Nous vous invitons à venir découvrir l'ensemble de nos services et à vous inscrire aux ateliers proposés pour optimiser vos recherches.
+
+                    Nous vous souhaitons une excellente année universitaire et restons à votre disposition pour toute demande.
+
+                    À très bientôt à la bibliothèque !
+
+                    Cordialement,
+                    L'équipe de la bibliothèque de l'INSA Hauts-de-France
+                    03 27 51 77 47
+                    https://bu.uphf.fr/opac/.do
+                    """
+                    email = EmailMessage(subject,
+                             email_message,
+                             f"BU INSA Hauts-de-France <{settings.EMAIL_HOST}>",
+                             [user.email])
+
+                    email.send()
+                    mess = f"Welcome {user.username}, Your account is create successfully, to active your account, get you verification code in your email boss at {user.email}"
+                        
+                    messages.info(request, mess)
+
+                    verification_code, created = VerificationCode.objects.get_or_create(user=user)
+                    verification_code.generate_code()
+                    print(verification_code.code)
+                    
+                    code = EmailMessage('Votre code de vérification',
+                             f'Votre code de vérification est : {verification_code.code}',
+                             f"BU INSA Hauts-de-France <{settings.EMAIL_HOST}>",
+                             [user.email])
+
+                    code.send()
+                    return redirect("code")
+            except Exception as e:
+                    print("error: ", e)
+                    #err = " ".join(e)
+                    messages.error(request, e)
+                    return render(request, template_name="register.html")
+            
+        #messages.info(request, "Bonjour")
+
+    return render(request, template_name="register.html")
+
+
+def connection(request):
+    mess = ""
+
+    '''if request.user.is_authenticated:
+         return redirect("dashboard")'''
+    if request.method == "POST":
+        
+        print("="*5, "NEW CONECTION", "="*5)
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+        
+        try:
+            validate_email(email)
+        except:
+            mess = "Invalid Email !!!"
+        #authen = User.lo
+        if mess=="":
+            user = User.objects.filter(email= email).first()
+            if user:
+                auth_user= authenticate(username= user.username, password= password)
+                if auth_user:
+                    print("Utilisateur infos: ", auth_user.username, auth_user.email)
+                    login(request, auth_user)
+                    
+                    return redirect("index")
+                else :
+                    mess = "Incorrect password"
+            else:
+                mess = "user does not exist"
+            
+        messages.info(request, mess)
+
+    return render(request, template_name="login.html")
+
+
+
+def code(request):
+    mess = ""
+
+   
+    if request.method == "POST":
+        
+        print("="*5, "NEW CONECTION", "="*5)
+        email = request.POST.get("email")
+        code_v = request.POST.get("code")
+        user = User.objects.filter(email= email).first()
+        verification_code, created = VerificationCode.objects.get_or_create(user=user)
+        
+        print(verification_code.code)
+        if str(code_v) == str(verification_code.code) :
+            messages.info(request, "Code valide")
+            return redirect("login")
+        else:
+            mess = "Invalid code !!!"
+      
+        messages.info(request, mess)
+
+    return render(request, template_name="code.html")
+
+
+
+def deconnexion(request):
+         print("Deconnexion")
+         logout(request)
+         return redirect("index")
+    
+
+
