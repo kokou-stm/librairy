@@ -17,4 +17,4 @@ COPY . /app/
 EXPOSE 8000
 
 # Commande pour collecter les fichiers statiques et lancer le serveur
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn gestion.wsgi:application --bind 0.0.0.0:8000"]
+CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn librairy.wsgi:application --bind 0.0.0.0:8000"]
