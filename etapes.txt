@@ -11,3 +11,11 @@ if status is not register:
    az provider register --namespace Microsoft.ContainerInstance (pour l'enregistrer)
 
 az container logs --resource-group Projet --name sandrine
+
+
+CREATE DATABASE nom_de_la_base;
+python manage.py makemigrations
+python manage.py migrate
+pg_dump -U votre_utilisateur nom_de_la_base > sauvegarde.sql
+(psql -h sandrine.postgres.database.azure.com -U kokou -d sandrine < bachelier.sql)
+insauphf@1221
