@@ -1,20 +1,13 @@
-# Utiliser une image Python optimisée pour la production
-FROM python:3.10-slim
 
-# Définir le répertoire de travail
+FROM python:3.8-slim
+#ENV PYTHONBUFFERED 1
+
+# Install pip
+#RUN apt-get install -y python3-pip
+# Mettre à jour et installer les dépendances nécessaires
+   
 WORKDIR /app
-
-# Copier les dépendances
-COPY requirements.txt /app/
-
-# Installer les dépendances
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copier tout le code
-COPY . /app/
-
-# Exposer le port par défaut de Django
-EXPOSE 8000
-
-# Commande pour collecter les fichiers statiques et lancer le serveur
-CMD ["sh", "-c", "python manage.py collectstatic --noinput && gunicorn librairy.wsgi:application --bind 0.0.0.0:8000"]
+COPY requirements.txt .
+RUN pip3 install -r requirements.txt
+COPY . .
+CMD python manage.py runserver 0.0.0.0:80
