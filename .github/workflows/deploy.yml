@@ -45,3 +45,6 @@ jobs:
           ports: "8000"
           registry-username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
           registry-password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
+          resources: |
+            requests.memory: "2Gi"
+            requests.cpu: "1"
