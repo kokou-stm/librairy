@@ -9,3 +9,5 @@ az ad sp create-for-rbac --name "my-github-actions-sp" --role contributor --scop
 az provider show --namespace Microsoft.ContainerInstance --query "registrationState"
 if status is not register: 
    az provider register --namespace Microsoft.ContainerInstance (pour l'enregistrer)
+
+az container logs --resource-group Projet --name sandrine
