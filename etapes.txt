@@ -19,3 +19,6 @@ python manage.py migrate
 pg_dump -U votre_utilisateur nom_de_la_base > sauvegarde.sql
 (psql -h sandrine.postgres.database.azure.com -U kokou -d sandrine < bachelier.sql)
 insauphf@1221
+
+psql -h azure_host -U azure_utilisateur -d azure_base < sauvegarde.sql
+
