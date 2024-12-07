@@ -17,8 +17,14 @@ CREATE DATABASE nom_de_la_base;
 python manage.py makemigrations
 python manage.py migrate
 pg_dump -U votre_utilisateur nom_de_la_base > sauvegarde.sql
-(psql -h sandrine.postgres.database.azure.com -U kokou -d sandrine < bachelier.sql)
+(psql -h sandrine.postgres.database.azure.com -U sandrine -d sandrine -f bachelier.sql)
 insauphf@1221
 
-psql -h azure_host -U azure_utilisateur -d azure_base < sauvegarde.sql
+psql -h azure_host -U azure_utilisateur -d azure_base -f sauvegarde.sql
+psql "host=sandrine.postgres.database.azure.com port=5432 dbname=postgres user=sandrine password=insauphf@1221 sslmode=require" -f bachelier.sql
 
+# Se connecter à la base de données: 
+ psql -h sandrine.postgres.database.azure.com -p 5432 -U sandrine postgres
+
+# Inporter la base de données locale: 
+psql -h sandrine.postgres.database.azure.com -p 5432 -U sandrine postgres
