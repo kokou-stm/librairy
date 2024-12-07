@@ -22,15 +22,15 @@ jobs:
 
       # Étape 3 : Connexion au registre Azure Container Registry
       - name: Log in to Azure Container Registry
-        run: echo "${{ secrets.AZURE_REGISTRY_PASSWORD }}" | docker login sandrine.azurecr.io -u "${{ secrets.AZURE_REGISTRY_USERNAME }}" --password-stdin
+        run: echo "${{ secrets.AZURE_REGISTRY_PASSWORD }}" | docker login buinsa.azurecr.io -u "${{ secrets.AZURE_REGISTRY_USERNAME }}" --password-stdin
 
       # Étape 4 : Construire l'image Docker
       - name: Build Docker image
-        run: docker build -t sandrine.azurecr.io/librairy:latest .
+        run: docker build -t buinsa.azurecr.io/librairy:latest .
 
       # Étape 5 : Pousser l'image Docker vers le registre
       - name: Push Docker image
-        run: docker push sandrine.azurecr.io/librairy:latest
+        run: docker push buinsa.azurecr.io/librairy:latest
 
       # Étape 6 : Déployer sur Azure Container Instance
       - name: Deploy to Azure Container Instance
@@ -38,9 +38,9 @@ jobs:
         with:
           resource-group: Projet
           dns-name-label: librairy
-          registry-login-server: sandrine.azurecr.io
-          image: sandrine.azurecr.io/librairy:latest
-          name: sandrine
+          registry-login-server: buinsa.azurecr.io
+          image: buinsa.azurecr.io/librairy:latest
+          name: buinsa
           location: eastus
           ports: "8000"
           registry-username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
