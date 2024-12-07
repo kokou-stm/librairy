@@ -93,6 +93,9 @@ DATABASES = {
         'PASSWORD': 'insauphf@1221',
         'HOST': 'sandrine.postgres.database.azure.com',
         'PORT': '5432',
+        'OPTIONS':{
+            'sslmode': 'require'
+        }
     }
 }
 
