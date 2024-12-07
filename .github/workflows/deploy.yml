@@ -42,7 +42,7 @@ jobs:
           image: sandrine.azurecr.io/librairy:latest
           name: sandrine
           location: eastus
-          ports: "8000"
+          ports: "80"
           registry-username: ${{ secrets.AZURE_REGISTRY_USERNAME }}
           registry-password: ${{ secrets.AZURE_REGISTRY_PASSWORD }}
           resources: |
