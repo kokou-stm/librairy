@@ -87,6 +87,9 @@ h6 {
   font-family: var(--heading-font);
 }
 
+.select2-container {
+  width: 100% !important; /* Définissez la largeur souhaitée */
+}
 /* PHP Email Form Messages
 ------------------------------*/
 .php-email-form .error-message {
@@ -1746,3 +1749,4 @@ section,
 .starter-section {
   /* Add your styles here */
 }
+

@@ -9,4 +9,9 @@ urlpatterns = [
     path('logout/', deconnexion, name='logout'),
       path('forgotpassword/', forgotpassword, name='forgotpassword'),
       path('code/', code, name='code'),
+      path('meslivres/', meslivres, name='meslivres'),
+      path('search/', search_book, name='search'),
+      path('profile/', edit_profile, name='profile'),
+      path('livre/<int:book_id>/', livre_detail, name='livre_detail'),
+      path('livre/<int:book_id>/emprunter', emprunter_livre, name='emprunter_livre'),
 ]

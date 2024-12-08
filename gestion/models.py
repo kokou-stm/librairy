@@ -13,20 +13,42 @@ class VerificationCode(models.Model):
         self.save()
 
 
-class Livres(models.Model):
-    titre = models.CharField(max_length=100, null=False)
-    auteur = models.CharField(max_length=100,  null=False)
-    annee_publication = models.CharField(max_length=100)
-    
-class Membres(models.Model):
+class Membre(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
+    numero_de_carte = models.CharField(max_length=20, unique=True, blank=True, null=True)  # Numéro de carte étudiant
+    phone = models.CharField(max_length=15, blank=True, null=True)  # Téléphone
     nom = models.CharField(max_length=100, null = False, blank= False)
     email = models.EmailField(max_length=100, null = False, blank= False)
+   
 
+    def __str__(self):
+        return f"{self.user.username}'s Profile"
+
+class Book(models.Model):
+    titre = models.CharField(max_length=100, null=False)
+    auteur = models.CharField(max_length=100,  null=False)
+    annee_publication = models.DateField()
+    description= models.CharField(null=True, blank=True)
+    image = models.FileField(upload_to='images')
+    
+    def __str__(self):
+        return self.titre
 
 class Emprunts(models.Model):
-    id_membre = models.ForeignKey(Membres, on_delete= models.CASCADE)
-    id_livre = models.ForeignKey(Livres, on_delete= models.CASCADE)
-    date_emprunt = models.DateTimeField(auto_now_add = True)
+    STATUS = {
+    "O":"Rendu",
+    'C': 'en_cours',
+    'N': 'Non_rendu'
+    } 
+    id_membre = models.ForeignKey(Membre, on_delete= models.CASCADE)
+    id_livre = models.ForeignKey(Book, on_delete= models.CASCADE)
+    date_emprunt = models.DateField(auto_now_add = True)
+    date_retour = models.DateField(blank=True, null=True)
+    date_rendu = models.DateField(blank=True, null=True)
+    status = models.CharField(max_length=50, choices=STATUS, default='C')
+
+    def __str__(self):
+        return self.id_membre.nom + self.id_livre.titre
 
 
 '''Création des tables

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
@@ -6,6 +6,7 @@ from django.contrib import messages
 
 from django.db.models import Q
 from django.core.mail import EmailMessage
+from django.http import JsonResponse
 
 from django.views.decorators.csrf import csrf_exempt
 from django.core.validators import validate_email
@@ -18,6 +19,50 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     return render(request, "index.html")
 
+@login_required
+def meslivres(request):
+    # Récupérer les emprunts de l'utilisateur connecté
+    emprunts = Emprunts.objects.filter(id_membre__user=request.user).order_by('-date_emprunt')
+    print(emprunts)
+    return render(request, 'meslivres.html', {'emprunts': emprunts})
+
+
+def livre_detail(request, book_id):
+    book = get_object_or_404(Book, id=book_id)
+    context = {'book': book}
+    return render(request, "livre_detail.html", context)
+
+@login_required
+def emprunter_livre(request, book_id):
+    # Récupérer le livre et le membre connecté
+    book = get_object_or_404(Book, id=book_id)
+    membre = get_object_or_404(Membre, user=request.user)
+
+    # Vérifier si l'utilisateur a déjà emprunté ce livre sans le rendre
+    if Emprunts.objects.filter(id_membre=membre, id_livre=book, status='C').exists():
+        messages.error(request, "Vous avez déjà emprunté ce livre.")
+        return redirect('livre_detail', book_id=book_id)
+
+    # Créer un nouvel emprunt
+    Emprunts.objects.create(
+        id_membre=membre,
+        id_livre=book,
+        status='C',  # Statut par défaut : en cours
+    )
+
+    # Ajouter un message de succès et rediriger
+    messages.success(request, "Le livre a été emprunté avec succès !")
+    return redirect('index')
+
+def search_book(request):
+    query = request.GET.get('q', '')
+    results = []
+    
+    if query:
+        books = Book.objects.filter(titre__icontains=query)
+        results = [{"id": book.id, "text": f"{book.titre} - {book.auteur}"} for book in books]
+    
+    return JsonResponse({"results": results})
 
 def forgotpassword(request):
     return render(request, "index.html")
@@ -52,6 +97,7 @@ def register(request):
                     user.save()
                     subject= "Bienvenue à la bibliothèque de l'INSA Hauts-de-France ! "
                     email_message = f"""
+
                     Bonjour {username},
 
                     Félicitations et bienvenue à l'INSA Hauts-de-France ! 
@@ -59,16 +105,16 @@ def register(request):
 
                     Grâce à votre inscription, vous avez désormais accès à une large gamme de ressources pour accompagner vos études :
 
-                        Des livres, des manuels, des revues et des articles scientifiques en libre accès.
-                        Un espace de travail calme et adapté pour vos révisions.
-                        Des services numériques, avec des bases de données en ligne, des e-books et bien plus encore.
-                        Des ateliers et des événements pour vous aider à développer vos compétences en recherche documentaire et en gestion de l'information.
+                    Des livres, des manuels, des revues et des articles scientifiques en libre accès.
+                    Un espace de travail calme et adapté pour vos révisions.
+                    Des services numériques, avec des bases de données en ligne, des e-books et bien plus encore.
+                    Des ateliers et des événements pour vous aider à développer vos compétences en recherche documentaire et en gestion de l'information.
 
                     Votre carte d'étudiant vous permet également d'accéder aux services suivants :
 
-                        Emprunt de documents et prolongation de prêts.
-                        Accès à des espaces de travail collaboratif.
-                        Réservation de salles de travail en groupe.
+                    Emprunt de documents et prolongation de prêts.
+                    Accès à des espaces de travail collaboratif.
+                    Réservation de salles de travail en groupe.
 
                     Pour plus d'informations sur nos horaires, nos services ou pour toute question, n'hésitez pas à consulter notre site web ou à nous contacter directement par e-mail ou téléphone.
 
@@ -82,6 +128,7 @@ def register(request):
                     L'équipe de la bibliothèque de l'INSA Hauts-de-France
                     03 27 51 77 47
                     https://bu.uphf.fr/opac/.do
+
                     """
                     email = EmailMessage(subject,
                              email_message,
@@ -103,6 +150,7 @@ def register(request):
                              [user.email])
 
                     code.send()
+                    Membre.objects.create(user=user, email=email, nom= username ).save()
                     return redirect("code")
             except Exception as e:
                     print("error: ", e)
@@ -149,7 +197,20 @@ def connection(request):
 
     return render(request, template_name="login.html")
 
+@login_required
+def edit_profile(request):
+    membre = get_object_or_404(Membre, user=request.user)
+    
+    if request.method == 'POST':
+        # Récupérer les données du formulaire
+        membre.phone = request.POST.get('phone', membre.phone)
+        membre.numero_de_carte = request.POST.get('numero_de_carte', membre.numero_de_carte)
+        
+        # Sauvegarder les modifications
+        membre.save()
+        return redirect('index')  # Redirige vers la page du profil (ou une autre page)
 
+    return render(request, 'profile.html', {'membre': membre})
 
 def code(request):
     mess = ""
