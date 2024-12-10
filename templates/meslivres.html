@@ -83,45 +83,58 @@
           </div>
         </header>
         
+        <div class="container mt-5 ">
+          <div class="card text-center">
+            <div class="card-header">
+              Liste des emprunts
+            </div>
+            <div class="card-body">
+                {% if emprunts %}
+   
+              <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                      <th>Titre du livre</th>
+                      <th>Date d'emprunt</th>
+                      <th>Date de retour</th>
+                      <th>Statut</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for emprunt in emprunts %}
+                      <tr>
+                          <td>{{ emprunt.id_livre.titre }}</td>
+                          <td>{{ emprunt.date_emprunt }}</td>
+                          <td>{{ emprunt.date_retour|default:"Non spécifiée" }}</td>
+                          <td>
+                              {% if emprunt.status == 'C' %}
+                                  En cours
+                              {% elif emprunt.status == 'O' %}
+                                  Rendu
+                              {% else %}
+                                  Non rendu
+                              {% endif %}
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+              </table> 
+                {% else %}
+                    <p>Vous n'avez aucun emprunt enregistré.</p>
+                {% endif %}
+              
+              <a href="#" class="btn btn-primary">Go somewhere</a>
+            </div>
+          </div>
+        </div>
         <div class="card text-center bg-transparent text-light my-5">
+          
           <div class="card-header mb-5">
             Featured
           </div>
           <div class="card-footer text-center">
-            <h1 class="mb-5">Liste de mes emprunts</h1>
-        {% if emprunts %}
-   
-            <table border="1">
-                <thead>
-                    <tr>
-                        <th>Titre du livre</th>
-                        <th>Date d'emprunt</th>
-                        <th>Date de retour</th>
-                        <th>Statut</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for emprunt in emprunts %}
-                        <tr>
-                            <td>{{ emprunt.id_livre.titre }}</td>
-                            <td>{{ emprunt.date_emprunt }}</td>
-                            <td>{{ emprunt.date_retour|default:"Non spécifiée" }}</td>
-                            <td>
-                                {% if emprunt.status == 'C' %}
-                                    En cours
-                                {% elif emprunt.status == 'O' %}
-                                    Rendu
-                                {% else %}
-                                    Non rendu
-                                {% endif %}
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p>Vous n'avez aucun emprunt enregistré.</p>
-        {% endif %}
+            
+        
         <a href="{% url 'index' %}" class="btn btn-outline-primary mt-4">Retour à l'accueil</a>
             
           </div>

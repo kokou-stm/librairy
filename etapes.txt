@@ -29,3 +29,13 @@ psql "host=sandrine.postgres.database.azure.com port=5432 dbname=postgres user=s
 # Inporter la base de données locale: 
 psql -h sandrine.postgres.database.azure.com -p 5432 -U sandrine postgres
 psycopg[binary]
+
+
+- Deploy to AKS: 
+1. Create aks cluster
+ az aks create --resource-group django-project --name djangoappcluster --node-count 1 --generate-ssh-keys
+  ((MissingSubscriptionRegistration) The subscription is not registered to use namespace 'Microsoft.ContainerService'. See https://aka.ms/rps-not-found for how to register subscriptions.
+Code: MissingSubscriptionRegistration)
+For register the ContainerServices: az provider register --namespace Microsoft.ContainerService
+  and rerun : az aks create --resource-group django-project --name djangoappcluster --node-count 1 --generate-ssh-keys
+2.
