@@ -45,7 +45,8 @@ class Emprunts(models.Model):
     date_emprunt = models.DateField(auto_now_add = True)
     date_retour = models.DateField(blank=True, null=True)
     date_rendu = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=50, choices=STATUS, default='C')
+    status = models.CharField(max_length=50, choices=STATUS.items(), default='C')
+    penalite = models.FloatField(blank=True, null=True)
 
     def __str__(self):
         return self.id_membre.nom + self.id_livre.titre

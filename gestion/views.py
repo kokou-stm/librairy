@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 from django.contrib import messages
+import datetime
+from datetime import timedelta
 
 from django.db.models import Q
 from django.core.mail import EmailMessage
@@ -46,15 +48,29 @@ def emprunter_livre(request, book_id):
         return redirect('livre_detail', book_id=book_id)
 
     # Créer un nouvel emprunt
-    Emprunts.objects.create(
+    emprunt = Emprunts.objects.create(
         id_membre=membre,
         id_livre=book,
         status='C',  # Statut par défaut : en cours
+        date_retour=(datetime.date.today() + timedelta(days=35))
     )
-
+    emprunt.date_retour = emprunt.date_emprunt + datetime.timedelta(days=10)
     # Ajouter un message de succès et rediriger
-    messages.success(request, "Le livre a été emprunté avec succès !")
+    messages.success(request, "Le livre a été emprunté avec succès ! Retrouvez le dans vos emprunts.")
     return redirect('index')
+
+
+@login_required
+def rendre_livre(request, emprunt_id):
+    # Récupérer le livre et le membre connecté
+    emprunt = get_object_or_404(Emprunts, id=emprunt_id)
+    
+    # Vérifier si l'utilisateur a déjà emprunté ce livre sans le rendre
+    emprunt.delete()
+    messages.error(request, "Le livre est rendu avec succes !.")
+    return redirect('meslivres')
+
+   
 
 def search_book(request):
     query = request.GET.get('q', '')

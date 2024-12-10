@@ -120,5 +120,14 @@
    
     </div>
 </section>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer>
+        {% autoescape off %}
+        {% for ms in messages %}
+            swal('{{ms|safe}}');
+        {% endfor %}
+        {% endautoescape %}
+    </script>
+
 </body>
 </html>

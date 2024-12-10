@@ -40,7 +40,7 @@
     
   <body>
     <section class="dark-background">
-      <header id="header" class="header d-flex align-items-center fixed-top">
+      <header id="header" class="header d-flex align-items-center fixed-top mb-5">
           <div class="container-fluid container-xl position-relative d-flex align-items-center justify-content-between">
       
             <a href="{% url 'index' %}" class="logo d-flex align-items-center">
@@ -84,26 +84,28 @@
         </header>
         
         <div class="container mt-5 ">
-          <div class="card text-center">
-            <div class="card-header">
+          <div class="card text-center bg-transparent text-light mt-5" style="border: solid 1px white;">
+            <div class="card-header bg-light text-muted">
               Liste des emprunts
             </div>
             <div class="card-body">
                 {% if emprunts %}
    
-              <table class="table table-dark table-striped">
-                <thead>
+              <table class="table  bg-transparent mt-3 " >
+                <thead class="table-dark">
                   <tr>
                       <th>Titre du livre</th>
                       <th>Date d'emprunt</th>
                       <th>Date de retour</th>
                       <th>Statut</th>
+                      <th>Penalité (€ )</th>
+                      <th>Action</th>
                   </tr>
               </thead>
-              <tbody>
+              <tbody >
                   {% for emprunt in emprunts %}
                       <tr>
-                          <td>{{ emprunt.id_livre.titre }}</td>
+                          <td><strong> {{ emprunt.id_livre.titre }}</strong></td>
                           <td>{{ emprunt.date_emprunt }}</td>
                           <td>{{ emprunt.date_retour|default:"Non spécifiée" }}</td>
                           <td>
@@ -115,6 +117,8 @@
                                   Non rendu
                               {% endif %}
                           </td>
+                          <td>{{ emprunt.penalite|default:0 }}</td>
+                          <td><a href="{% url 'rendre_livre' emprunt.id %}" class="btn btn-outline-success"> Rendre  </a></td>
                       </tr>
                   {% endfor %}
               </tbody>
@@ -123,19 +127,19 @@
                     <p>Vous n'avez aucun emprunt enregistré.</p>
                 {% endif %}
               
-              <a href="#" class="btn btn-primary">Go somewhere</a>
+              
             </div>
           </div>
         </div>
         <div class="card text-center bg-transparent text-light my-5">
           
           <div class="card-header mb-5">
-            Featured
+            <a href="{% url  'index' %}" class="btn btn-outline-light">Catalogue</a>
           </div>
           <div class="card-footer text-center">
             
         
-        <a href="{% url 'index' %}" class="btn btn-outline-primary mt-4">Retour à l'accueil</a>
+        
             
           </div>
           
@@ -146,4 +150,12 @@
   
       </section>
     
+      <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer>
+        {% autoescape off %}
+        {% for ms in messages %}
+            swal('{{ms|safe}}');
+        {% endfor %}
+        {% endautoescape %}
+    </script>
 </html>

@@ -14,4 +14,5 @@ urlpatterns = [
       path('profile/', edit_profile, name='profile'),
       path('livre/<int:book_id>/', livre_detail, name='livre_detail'),
       path('livre/<int:book_id>/emprunter', emprunter_livre, name='emprunter_livre'),
-]
+       path('rendre/<int:emprunt_id>/', rendre_livre, name='rendre_livre'),
+]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
