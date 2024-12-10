@@ -52,12 +52,49 @@ def emprunter_livre(request, book_id):
         id_membre=membre,
         id_livre=book,
         status='C',  # Statut par défaut : en cours
+        date_emprunt= datetime.date.today(),
         date_retour=(datetime.date.today() + timedelta(days=35))
     )
     emprunt.date_retour = emprunt.date_emprunt + datetime.timedelta(days=10)
     # Ajouter un message de succès et rediriger
     messages.success(request, "Le livre a été emprunté avec succès ! Retrouvez le dans vos emprunts.")
     return redirect('index')
+
+
+from django.http import JsonResponse
+from datetime import date
+from .models import Emprunts
+
+def verifier_emprunts(request):
+    # Récupérer tous les emprunts en cours où la date de retour est dépassée
+    emprunts_expires = Emprunts.objects.filter(
+        status='C',
+        date_retour__lt=date.today()
+    )
+    
+    # Envoyer un e-mail à chaque utilisateur pour les emprunts expirés
+    for emprunt in emprunts_expires:
+        diff_jours = (date.today() - emprunt.date_retour).days
+        message = f"Bonjour {emprunt.id_membre.nom},\n\n"
+        message += f"Le livre '{emprunt.id_livre.titre}' devait être rendu le {emprunt.date_retour}.\n"
+        message+= f"Vous etes en retard de {diff_jours} jours\n"
+        message += "Nous sommes dans l'obligation de vous appliquer des pénalités supplémentaires selon le reglement de la bibliotheque."
+        print("Emprunts: ", emprunt, diff_jours)
+
+        if emprunt.penalite < (diff_jours//10)*5:
+        # Envoi d'e-mail
+            email = EmailMessage("Rappel : Date de retour dépassée",
+                                message,
+                                f"BU INSA Hauts-de-France <{settings.EMAIL_HOST}>",
+                                [emprunt.id_membre.email])
+
+            email.send()
+        if diff_jours > 0: 
+            emprunt.penalite = (diff_jours//10)*5
+            emprunt.save()
+    
+    # Retourner les données pour JavaScript (si besoin d'afficher un statut)
+    return JsonResponse({"message": "Rappels envoyés", "count": emprunts_expires.count()})
 
 
 @login_required

@@ -42,11 +42,11 @@ class Emprunts(models.Model):
     } 
     id_membre = models.ForeignKey(Membre, on_delete= models.CASCADE)
     id_livre = models.ForeignKey(Book, on_delete= models.CASCADE)
-    date_emprunt = models.DateField(auto_now_add = True)
+    date_emprunt = models.DateField( blank=True, null=True)
     date_retour = models.DateField(blank=True, null=True)
     date_rendu = models.DateField(blank=True, null=True)
     status = models.CharField(max_length=50, choices=STATUS.items(), default='C')
-    penalite = models.FloatField(blank=True, null=True)
+    penalite = models.FloatField(blank=True, null=True, default=0)
 
     def __str__(self):
         return self.id_membre.nom + self.id_livre.titre

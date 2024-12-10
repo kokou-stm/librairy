@@ -15,4 +15,5 @@ urlpatterns = [
       path('livre/<int:book_id>/', livre_detail, name='livre_detail'),
       path('livre/<int:book_id>/emprunter', emprunter_livre, name='emprunter_livre'),
        path('rendre/<int:emprunt_id>/', rendre_livre, name='rendre_livre'),
+      path('verifier-emprunts/', verifier_emprunts, name='verifier_emprunts'),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

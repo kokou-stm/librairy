@@ -10,7 +10,7 @@
   <meta name="keywords" content="">
 
   <!-- Favicons -->
-  <link href="{% static 'gestion/assets/img/logo.jpg'%}" rel="icon">
+  <link href="{% static 'gestion/assets/img/logobu.png'%}" rel="icon">
   <link href="{% static 'gestion/assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
 
   <!-- Fonts -->
@@ -1218,7 +1218,7 @@
             placeholder: 'Ex: Réseaux',
             //theme: "classic",
            // height: '100%',
-            width: '80%',
+            width: '40%',
             ajax: {
                 url: '/search/', // URL définie dans urls.py
                 dataType: 'json',
@@ -1244,6 +1244,22 @@
             });
     });
 </script>
+<script>
+  // Fonction pour vérifier les emprunts expirés
+  function verifierEmprunts() {
+      fetch("{% url 'verifier_emprunts' %}")
+          .then(response => response.json())
+          .then(data => {
+              console.log(data.message + " - " + data.count + " emprunts expirés.");
+          })
+          .catch(error => console.error("Erreur :", error));
+  }
+
+  // Vérifier toutes les 5 secondes
+  setInterval(verifierEmprunts, 3600000);
+</script>
+
+
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer>
         {% autoescape off %}
