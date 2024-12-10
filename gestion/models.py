@@ -45,7 +45,7 @@ class Emprunts(models.Model):
     date_emprunt = models.DateField( blank=True, null=True)
     date_retour = models.DateField(blank=True, null=True)
     date_rendu = models.DateField(blank=True, null=True)
-    status = models.CharField(max_length=50, choices=STATUS.items(), default='C')
+    status = models.CharField(max_length=50, choices=STATUS.items(), default='C' )
     penalite = models.FloatField(blank=True, null=True, default=0)
 
     def __str__(self):
