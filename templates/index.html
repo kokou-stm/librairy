@@ -87,6 +87,14 @@
       </nav>
 
     </div>
+
+    <style>
+ .card-img-top {
+  height: 200px;
+  object-fit: cover; /* Coupe l'image pour s'adapter sans déformation */
+}
+
+    </style>
   </header>
 
   <main class="main">
@@ -187,29 +195,29 @@
     </div><!-- End Section Title -->
 
     <div class="container">
+
       <div class="row">
         {% for book in books %}
-        <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="{{ forloop.counter|add:200 }}">
-          <div class="member">
-            <div class="pic">
-              <img src="{{ book.image.url }}" class="img-fluid" alt="{{ book.titre }}">
+        <div class="col-lg-3 col-md-4 mb-4">
+          <div class="card h-100">
+            <!-- Image -->
+            <img src="{{ book.image.url }}" class="card-img-top" alt="{{ book.titre }}">
+            
+            <!-- Card body -->
+            <div class="card-body">
+              <h5 class="card-title">{{ book.titre }}</h5>
+              <p class="card-text">By {{ book.auteur }}</p>
             </div>
-            <div class="member-info">
-              <h4>{{ book.titre }}</h4>
-              <span>{{ book.auteur }}</span>
-              <div class="social">
-                <a href=""><i class="bi bi-twitter-x"></i></a>
-                <a href=""><i class="bi bi-facebook"></i></a>
-                <a href=""><i class="bi bi-instagram"></i></a>
-                <a href=""><i class="bi bi-linkedin"></i></a>
-              </div>
+            
+            <!-- Card footer -->
+            <div class="card-footer">
+              <a href="#" class="btn btn-primary">View Details</a>
             </div>
           </div>
         </div>
         {% endfor %}
       </div>
       
-
       <div class="row gy-5 mb-5">
        
         <div class="col-lg-3 col-md-4" data-aos="fade-up" data-aos-delay="100">
