@@ -191,7 +191,7 @@ def register(request):
                              [user.email])
 
                     email.send()
-                    mess = f"Welcome {user.username}, Your account is create successfully, to active your account, get you verification code in your email boss at {user.email}"
+                    mess = f"Welcome, {user.username}! Your account has been successfully created. To activate your account, please retrieve your verification code from the email sent to {user.email}"
                         
                     messages.info(request, mess)
 
@@ -281,7 +281,7 @@ def code(request):
         
         print(verification_code.code)
         if str(code_v) == str(verification_code.code) :
-            messages.info(request, "Code valide")
+            messages.info(request, "Votre compte est activé . Connectez vous!")
             return redirect("login")
         else:
             mess = "Invalid code !!!"
