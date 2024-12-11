@@ -30,6 +30,7 @@ SECRET_KEY = 'django-insecure-p6t&vt^%5f^horfg=ggv-sg8kmi#j(vgwp_+9ht3a(@t*k5hk-
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+CSRF_TRUSTED_ORIGINS =["http://*.127.0.0.1","http://*.localhost",  "http://*.buinsa.gjebczamehd4eeex.eastus.azurecontainer.io","https://aivoicedubber.com",  "https://.*aivoicedubber.com"]
 
 
 # Application definition
