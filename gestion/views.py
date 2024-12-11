@@ -80,7 +80,9 @@ def verifier_emprunts(request):
         message+= f"Vous etes en retard de {diff_jours} jours\n"
         message += "Nous sommes dans l'obligation de vous appliquer des pénalités supplémentaires selon le reglement de la bibliotheque."
         print("Emprunts: ", emprunt, diff_jours)
-
+        if diff_jours > 0: 
+            emprunt.penalite = (diff_jours//10)*5
+            emprunt.save()
         if emprunt.penalite < (diff_jours//10)*5:
         # Envoi d'e-mail
             email = EmailMessage("Rappel : Date de retour dépassée",
@@ -89,9 +91,7 @@ def verifier_emprunts(request):
                                 [emprunt.id_membre.email])
 
             email.send()
-        if diff_jours > 0: 
-            emprunt.penalite = (diff_jours//10)*5
-            emprunt.save()
+       
     
     # Retourner les données pour JavaScript (si besoin d'afficher un statut)
     return JsonResponse({"message": "Rappels envoyés", "count": emprunts_expires.count()})
