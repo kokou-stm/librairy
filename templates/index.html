@@ -129,22 +129,24 @@
                    
                       <div class="card-body">
                         <!--h5 class="card-title">Retrouvez vos livres préférés dans notre catalogue</h5-->
-       
-                        <div class="input-group mb-3  mt-5 " >
-                          <!--input type="text" class="form-control" id="search-input"  aria-label="Text input with dropdown button" placeholder="Ex: Les fleurs du mal"-->
-                          
-                          <select id="book-search" class="form-control" style="padding: 2em;"></select>
-                          <button class="btn btn-outline-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Titre</button>
-                          <ul class="dropdown-menu dropdown-menu-end bg-transparent " style="border:solid 1px white">
-                            
-                            <li><a class="dropdown-item  text-light" href="#">Matière</a></li>
-                            <li><hr class="dropdown-divider" style="border:solid 0.5px white"></li>
-                            <li><a class="dropdown-item  text-light" href="#">Auteur</a></li>
-                            <li><hr class="dropdown-divider"></li>
+                        <div class="input-group mb-3 mt-5">
                          
+                            <div class="col-md-10"> <select id="book-search" class="form-control" style="width: 100%;"></select></div>
+                            <div class="col">
+                              <button class="btn btn-outline-light btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Titre</button>
+                          <ul class="dropdown-menu dropdown-menu-end bg-transparent" style="border:solid 1px white">
+                       
+                              <li><hr class="dropdown-divider" style="border:solid 0.5px white"></li>
+                              <li><a class="dropdown-item text-light" href="#" data-filter="auteur">Auteur</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item text-light" href="#" data-filter="date">Date</a></li>
                           </ul>
-                        
-                        </div>
+                            </div>
+                          
+                         
+                          
+                      </div>
+                      
                         
                         
           
@@ -509,201 +511,119 @@
 
     </section><!-- /Details Section -->
 
-    <!-- Gallery Section -->
-    <section id="gallery" class="gallery section">
+  
+ <!-- Section des Témoignages -->
+<section id="testimonials" class="testimonials section dark-background">
 
-      <!-- Section Title -->
-      <div class="container section-title" data-aos="fade-up">
-        <h2>Gallery</h2>
-        <div><span>Check Our</span> <span class="description-title">Gallery</span></div>
-      </div><!-- End Section Title -->
+  <img src="{% static 'gestion/assets/img/library-bg.jpg' %}" class="testimonials-bg" alt="">
 
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
+  <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-        <div class="row g-0">
+    <div class="swiper init-swiper">
+      <script type="application/json" class="swiper-config">
+        {
+          "loop": true,
+          "speed": 600,
+          "autoplay": {
+            "delay": 5000
+          },
+          "slidesPerView": "auto",
+          "pagination": {
+            "el": ".swiper-pagination",
+            "type": "bullets",
+            "clickable": true
+          }
+        }
+      </script>
+      <div class="swiper-wrapper">
 
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-1.jpg'%} " class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-1.jpg'%}" alt="" class="img-fluid">
-              </a>
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <img src="{% static 'gestion/assets/img/testimonials/testimonials-1.jpg' %}" class="testimonial-img" alt="">
+            <h3>Marie Dupont</h3>
+            <h4>Étudiante en Littérature</h4>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
             </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-2.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-2.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-3.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-3.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-4.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-4.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-5.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-5.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-6.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-6.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-7.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-7.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{% static 'gestion/assets/img/gallery/gallery-8.jpg'%}" class="glightbox" data-gallery="images-gallery">
-                <img src="{% static 'gestion/assets/img/gallery/gallery-8.jpg'%}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div><!-- End Gallery Item -->
-
-        </div>
-
-      </div>
-
-    </section><!-- /Gallery Section -->
-
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials section dark-background">
-
-      <img src="{% static 'gestion/assets/img/testimonials-bg.jpg'%}" class="testimonials-bg" alt="">
-
-      <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-        <div class="swiper init-swiper">
-          <script type="application/json" class="swiper-config">
-            {
-              "loop": true,
-              "speed": 600,
-              "autoplay": {
-                "delay": 5000
-              },
-              "slidesPerView": "auto",
-              "pagination": {
-                "el": ".swiper-pagination",
-                "type": "bullets",
-                "clickable": true
-              }
-            }
-          </script>
-          <div class="swiper-wrapper">
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="{% static 'gestion/assets/img/testimonials/testimonials-1.jpg'%}" class="testimonial-img" alt="">
-                <h3>Saul Goodman</h3>
-                <h4>Ceo &amp; Founder</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="{% static 'gestion/assets/img/testimonials/testimonials-2.jpg'%}" class="testimonial-img" alt="">
-                <h3>Sara Wilsson</h3>
-                <h4>Designer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="{% static 'gestion/assets/img/testimonials/testimonials-3.jpg'%}" class="testimonial-img" alt="">
-                <h3>Jena Karlis</h3>
-                <h4>Store Owner</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="{% static 'gestion/assets/img/testimonials/testimonials-4.jpg'%}" class="testimonial-img" alt="">
-                <h3>Matt Brandon</h3>
-                <h4>Freelancer</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
-            <div class="swiper-slide">
-              <div class="testimonial-item">
-                <img src="{% static 'gestion/assets/img/testimonials/testimonials-5.jpg'%}" class="testimonial-img" alt="">
-                <h3>John Larson</h3>
-                <h4>Entrepreneur</h4>
-                <div class="stars">
-                  <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-                </div>
-                <p>
-                  <i class="bi bi-quote quote-icon-left"></i>
-                  <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                  <i class="bi bi-quote quote-icon-right"></i>
-                </p>
-              </div>
-            </div><!-- End testimonial item -->
-
+            <p>
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>La bibliothèque m'a permis d'accéder à des ouvrages rares pour mes recherches. Le personnel est toujours prêt à aider et l'atmosphère est idéale pour étudier.</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </p>
           </div>
-          <div class="swiper-pagination"></div>
-        </div>
+        </div><!-- Fin du témoignage -->
+
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <img src="{% static 'gestion/assets/img/testimonials/testimonials-2.jpg' %}" class="testimonial-img" alt="">
+            <h3>Jean Martin</h3>
+            <h4>Passionné d'histoire</h4>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>Grâce à cette bibliothèque, j'ai découvert des archives historiques fascinantes qui m'ont aidé à approfondir ma passion pour l'histoire locale.</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </p>
+          </div>
+        </div><!-- Fin du témoignage -->
+
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <img src="{% static 'gestion/assets/img/testimonials/testimonials-3.jpg' %}" class="testimonial-img" alt="">
+            <h3>Claire Morel</h3>
+            <h4>Mère de famille</h4>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>Mes enfants adorent les ateliers de lecture organisés par la bibliothèque. C'est un lieu éducatif et convivial où toute la famille trouve son bonheur.</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </p>
+          </div>
+        </div><!-- Fin du témoignage -->
+
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <img src="{% static 'gestion/assets/img/testimonials/testimonials-4.jpg' %}" class="testimonial-img" alt="">
+            <h3>Luc Bernard</h3>
+            <h4>Auteur local</h4>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>La bibliothèque m'a offert une plateforme pour présenter mon dernier livre au public. L'équipe a été formidable et m'a beaucoup soutenu.</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </p>
+          </div>
+        </div><!-- Fin du témoignage -->
+
+        <div class="swiper-slide">
+          <div class="testimonial-item">
+            <img src="{% static 'gestion/assets/img/testimonials/testimonials-5.jpg' %}" class="testimonial-img" alt="">
+            <h3>Sophie Durand</h3>
+            <h4>Étudiante en Sciences</h4>
+            <div class="stars">
+              <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+            </div>
+            <p>
+              <i class="bi bi-quote quote-icon-left"></i>
+              <span>Les ressources numériques et les espaces de travail m'ont énormément aidée à réussir mes études. Je recommande vivement cette bibliothèque.</span>
+              <i class="bi bi-quote quote-icon-right"></i>
+            </p>
+          </div>
+        </div><!-- Fin du témoignage -->
 
       </div>
+      <div class="swiper-pagination"></div>
+    </div>
 
-    </section><!-- /Testimonials Section -->
+  </div>
+
+</section><!-- Fin de la Section Témoignages -->
 
     <!-- Team Section -->
     <section id="team" class="team section">
@@ -824,7 +744,7 @@
 
           <div class="col-lg-4" data-aos="zoom-in" data-aos-delay="300">
             <div class="pricing-item">
-              <h3>Developer Plan</h3>
+              <h3>Plan Premium</h3>
               <p class="description">Accédez à toutes les ressources et événements exclusifs.</p>
               <h4><sup>$</sup>49<span> / month</span></h4>
               <a href="#" class="cta-btn">Start a free trial</a>
@@ -919,7 +839,7 @@
       <!-- Section Title -->
       <div class="container section-title" data-aos="fade-up">
         <h2>Contact</h2>
-        <div><span>Check Our</span> <span class="description-title">Contact</span></div>
+        <div><span> Contactez</span> <span class="description-title">Nous</span></div>
       </div><!-- End Section Title -->
 
       <div class="container" data-aos="fade" data-aos-delay="100">
@@ -1083,35 +1003,44 @@
   <script src="{% static 'gestion/assets/js/main.js' %}"></script>
   <script>
     $(document).ready(function () {
-        $('#book-search').select2({
-            placeholder: 'Ex: Réseaux',
-            //theme: "classic",
-           // height: '100%',
-            width: '40%',
-            ajax: {
-                url: '/search/', // URL définie dans urls.py
-                dataType: 'json',
-                delay: 250, // Temps d'attente avant la requête (ms)
-                data: function (params) {
-                    return {
-                        q: params.term // Terme de recherche envoyé au serveur
-                    };
-                },
-                processResults: function (data) {
-                    return {
-                        results: data.results // Format attendu par Select2
-                    };
-                },
-                cache: true
+    $('#book-search').select2({
+        //placeholder: 'Ex: Réseaux',
+        width: 'resolve',
+        ajax: {
+            url: '/search/', // URL définie dans urls.py
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                const filterBy = $('.dropdown-toggle').text().trim().toLowerCase(); // Critère sélectionné
+                return {
+                    q: params.term, // Terme de recherche
+                    filter_by: filterBy // Critère de recherche (titre, auteur, date)
+                };
             },
-            minimumInputLength: 2 // Nombre minimum de caractères avant de rechercher
-        });
-         // Redirection lorsque l'utilisateur sélectionne un livre
-         $('#book-search').on('select2:select', function (e) {
-                const bookId = e.params.data.id; // Récupérer l'ID du livre sélectionné
-                window.location.href = `/livre/${bookId}/`; // Redirection vers la vue "livre_detail"
-            });
+            processResults: function (data) {
+                return {
+                    results: data.results
+                };
+            },
+            cache: true
+        },
+        minimumInputLength: 2
     });
+
+    // Redirection lorsque l'utilisateur sélectionne un livre
+    $('#book-search').on('select2:select', function (e) {
+        const bookId = e.params.data.id;
+        window.location.href = `/livre/${bookId}/`; // Redirection vers la vue "livre_detail"
+    });
+
+    // Gérer les clics sur les items du dropdown pour changer le texte du bouton
+    $('.dropdown-menu .dropdown-item').on('click', function (e) {
+        e.preventDefault();
+        const selectedFilter = $(this).text();
+        $('.dropdown-toggle').text(selectedFilter);
+    });
+});
+
 </script>
 <script>
   // Fonction pour vérifier les emprunts expirés

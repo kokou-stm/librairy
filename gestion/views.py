@@ -109,7 +109,7 @@ def rendre_livre(request, emprunt_id):
 
    
 
-def search_book(request):
+def search_book1(request):
     query = request.GET.get('q', '')
     results = []
     
@@ -118,6 +118,35 @@ def search_book(request):
         results = [{"id": book.id, "text": f"{book.titre} - {book.auteur}"} for book in books]
     
     return JsonResponse({"results": results})
+
+
+from django.http import JsonResponse
+from django.db.models import Q
+
+def search_book(request):
+    query = request.GET.get('q', '')  # Terme de recherche
+    filter_by = request.GET.get('filter_by', 'titre')  # Critère de recherche par défaut : 'titre'
+    results = []
+
+    if query:
+        # Recherche selon le critère sélectionné
+        if filter_by == 'titre':
+            books = Book.objects.filter(titre__icontains=query)
+            results = [{"id": book.id, "text": f"{book.titre} - {book.auteur}"} for book in books]
+        elif filter_by == 'auteur':
+            books = Book.objects.filter(auteur__icontains=query)
+            results = [{"id": book.id, "text": f"{book.titre} - {book.auteur}"} for book in books]
+        elif filter_by == 'date':
+            books = Book.objects.filter(annee_publication__icontains=query)
+            results = [{"id": book.id, "text": f"{book.titre} - {book.annee_publication}"} for book in books]
+        else:
+            books = Book.objects.none()  # Aucun résultat si le critère est invalide
+
+        # Format des résultats pour Select2
+        #results = [{"id": book.id, "text": f"{book.titre} - {book.auteur}"} for book in books]
+    
+    return JsonResponse({"results": results})
+
 
 def forgotpassword(request):
     return render(request, "index.html")
